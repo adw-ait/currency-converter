@@ -7,8 +7,8 @@ function CurrencyConverter() {
   const [isFetched, setisFetched] = useState(false);
   const [baseCurrency, setbaseCurrency] = useState("CAD");
   const [targetCurrency, settargetCurrency] = useState("CAD");
-  const [input, setinput] = useState(0);
-  const [convertedValue, setconvertedValue] = useState(0);
+  const [input, setinput] = useState(1);
+  const [convertedValue, setconvertedValue] = useState(1);
   const [valueExtended, setvalueExtended] = useState(false);
   useEffect(() => {
     fetch(`https://api.exchangeratesapi.io/latest?base=${baseCurrency}`)
@@ -16,8 +16,8 @@ function CurrencyConverter() {
       .then((result) => {
         setfetchedData(result);
         setisFetched(true);
-        setinput(0);
-        setconvertedValue(0);
+        setinput(1);
+        setconvertedValue(1);
         settargetCurrency(baseCurrency);
         setvalueExtended(false);
       });
@@ -27,6 +27,7 @@ function CurrencyConverter() {
     if (e.target.value > 9999999) {
       setvalueExtended(true);
     } else {
+      setvalueExtended(false);
       const targetVal = fetchedData.rates[targetCurrency];
       setinput(e.target.value);
       setconvertedValue(e.target.value * targetVal);
@@ -45,13 +46,12 @@ function CurrencyConverter() {
   };
   return (
     <div>
-      {valueExtended && <Error />}
       <h1 className="heading">Currency Converter</h1>
       <div className="flex-container-Card ">
         <div className="flex-container-value">
           {isFetched ? (
             <h2>
-              {targetCurrency} : {convertedValue.toFixed()}
+              {targetCurrency} : {convertedValue.toFixed(2)}
             </h2>
           ) : (
             <h2>Loading...</h2>
@@ -89,6 +89,7 @@ function CurrencyConverter() {
           </select>
         </div>
       </div>
+      {valueExtended && <Error />}
     </div>
   );
 }
