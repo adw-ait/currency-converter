@@ -10,7 +10,7 @@ html {
 .flex-container-Card {
   display: flex;
   padding: 19px;
-
+  max-width: 300px;
   flex-direction: column;
   border-radius: 27px;
   background: #5fbcf2;
@@ -48,7 +48,7 @@ input[type="number"] {
   border-bottom: 1px solid white;
   color: white;
   font-size: 35px;
-  max-width: 100px;
+  max-width: 200px;
   text-align: center;
   margin: 0px;
   padding: 0px;
@@ -80,4 +80,14 @@ select {
 
 .arrow {
   height: 2.4rem;
+}
+
+.error-ValueMore {
+  font-size: 25px;
+  font-weight: 900;
+  display: block;
+  border-radius: 10px;
+  border: 2px solid red;
+  padding: 10px;
+  color: red;
 }

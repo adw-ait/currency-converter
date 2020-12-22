@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-// import loading from "./resources/loading.gif";
+
 import arrow from "./resources/arrow.png";
 import "./style.css";
 function CurrencyConverter() {
   const [fetchedData, setfetchedData] = useState([]);
   const [isFetched, setisFetched] = useState(false);
-
   const [baseCurrency, setbaseCurrency] = useState("CAD");
   const [targetCurrency, settargetCurrency] = useState("CAD");
   const [input, setinput] = useState(0);
   const [convertedValue, setconvertedValue] = useState(0);
+  const [valueExtended, setvalueExtended] = useState(false);
   useEffect(() => {
     fetch(`https://api.exchangeratesapi.io/latest?base=${baseCurrency}`)
       .then((res) => res.json())
@@ -19,13 +19,18 @@ function CurrencyConverter() {
         setinput(0);
         setconvertedValue(0);
         settargetCurrency(baseCurrency);
+        setvalueExtended(false);
       });
   }, [baseCurrency]);
 
   const valueChange = (e) => {
-    const targetVal = fetchedData.rates[targetCurrency];
-    setinput(e.target.value);
-    setconvertedValue(e.target.value * targetVal);
+    if (e.target.value > 9999999) {
+      setvalueExtended(true);
+    } else {
+      const targetVal = fetchedData.rates[targetCurrency];
+      setinput(e.target.value);
+      setconvertedValue(e.target.value * targetVal);
+    }
   };
 
   const selectChange = (e) => {
@@ -40,12 +45,13 @@ function CurrencyConverter() {
   };
   return (
     <div>
+      {valueExtended && <Error />}
       <h1 className="heading">Currency Converter</h1>
       <div className="flex-container-Card ">
         <div className="flex-container-value">
           {isFetched ? (
             <h2>
-              {targetCurrency} : {convertedValue}
+              {targetCurrency} : {convertedValue.toFixed()}
             </h2>
           ) : (
             <h2>Loading...</h2>
@@ -86,5 +92,8 @@ function CurrencyConverter() {
     </div>
   );
 }
+const Error = () => {
+  return <h2 className="error-ValueMore">Max length reached!!!</h2>;
+};
 
 export default CurrencyConverter;
