@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import loading from "./resources/loading.gif";
+// import loading from "./resources/loading.gif";
+import arrow from "./resources/arrow.png";
+import "./style.css";
 function CurrencyConverter() {
   const [fetchedData, setfetchedData] = useState([]);
   const [isFetched, setisFetched] = useState(false);
@@ -38,34 +40,49 @@ function CurrencyConverter() {
   };
   return (
     <div>
-      <h1>Currency Converter</h1>
-      <hr />
-      <h2>
-        {isFetched ? convertedValue : <img src={loading} alt="Loading..." />}
-      </h2>
-      <hr />
-      <input type="number" value={input} onChange={valueChange} />
-      <hr />
-      <select name="baseSelect" onChange={selectChange}>
-        {isFetched &&
-          Object.entries(fetchedData.rates).map(([key, value]) => {
-            return (
-              <option key={value} value={key}>
-                {key}
-              </option>
-            );
-          })}
-      </select>{" "}
-      <select name="targetSelect" onChange={selectChange}>
-        {isFetched &&
-          Object.entries(fetchedData.rates).map(([key, value]) => {
-            return (
-              <option key={value} value={key}>
-                {key}
-              </option>
-            );
-          })}
-      </select>
+      <h1 className="heading">Currency Converter</h1>
+      <div className="flex-container-Card ">
+        <div className="flex-container-value">
+          {isFetched ? (
+            <h2>
+              {targetCurrency} : {convertedValue}
+            </h2>
+          ) : (
+            <h2>Loading...</h2>
+          )}
+        </div>
+        <div className="flex-container-input">
+          <input
+            className="flex-container-input"
+            type="number"
+            value={input}
+            onChange={valueChange}
+          />
+        </div>
+        <div className="flex-container-select">
+          <select name="baseSelect" onChange={selectChange}>
+            {isFetched &&
+              Object.entries(fetchedData.rates).map(([key, value]) => {
+                return (
+                  <option key={value} value={key}>
+                    {key}
+                  </option>
+                );
+              })}
+          </select>{" "}
+          <img className="arrow" src={arrow} alt="" />
+          <select name="targetSelect" onChange={selectChange}>
+            {isFetched &&
+              Object.entries(fetchedData.rates).map(([key, value]) => {
+                return (
+                  <option key={value} value={key}>
+                    {key}
+                  </option>
+                );
+              })}
+          </select>
+        </div>
+      </div>
     </div>
   );
 }
