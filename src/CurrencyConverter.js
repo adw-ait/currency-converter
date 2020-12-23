@@ -5,8 +5,8 @@ import "./style.css";
 function CurrencyConverter() {
   const [fetchedData, setfetchedData] = useState([]);
   const [isFetched, setisFetched] = useState(false);
-  const [baseCurrency, setbaseCurrency] = useState("CAD");
-  const [targetCurrency, settargetCurrency] = useState("CAD");
+  const [baseCurrency, setbaseCurrency] = useState("USD");
+  const [targetCurrency, settargetCurrency] = useState("INR");
   const [input, setinput] = useState(1);
   const [convertedValue, setconvertedValue] = useState(1);
   const [valueExtended, setvalueExtended] = useState(false);
@@ -66,7 +66,11 @@ function CurrencyConverter() {
           />
         </div>
         <div className="flex-container-select">
-          <select name="baseSelect" onChange={selectChange}>
+          <select
+            name="baseSelect"
+            onChange={selectChange}
+            value={baseCurrency}
+          >
             {isFetched &&
               Object.entries(fetchedData.rates).map(([key, value]) => {
                 return (
@@ -77,7 +81,11 @@ function CurrencyConverter() {
               })}
           </select>{" "}
           <img className="arrow" src={arrow} alt="" />
-          <select name="targetSelect" onChange={selectChange}>
+          <select
+            name="targetSelect"
+            onChange={selectChange}
+            value={targetCurrency}
+          >
             {isFetched &&
               Object.entries(fetchedData.rates).map(([key, value]) => {
                 return (
